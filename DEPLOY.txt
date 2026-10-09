@@ -1,0 +1,87 @@
+NOKT FIELD LOG — UPDATE v7  (03 Oct 2026)
+
+*** BEFORE YOU UPDATE: open the app -> Settings -> Full backup (with photos).
+*** Takes 10 seconds. Your data is NOT touched by an update, but back up anyway.
+
+WHAT IS NEW IN v7
+- Fabrics -> Spec : the full 8-parameter NOKT-01 fabric spec, readable in a
+  fabric shop. Target / Accept / Reject for each, plus why it matters.
+- Copy-paste supplier enquiry + Call / WhatsApp / Email buttons for all
+  4 Cape Town suppliers.
+- Weight test floor raised 230 -> 240 gsm (the opacity floor). Ceiling 320.
+- FIXED: test 5 was scoring recovery as if it were growth. A healthy 96%
+  recovery would have been marked FAIL. Recovery is now >=90%, growth <=3%.
+- Thresholds now come from one place, so the spec and the scoring cannot
+  drift apart again.
+- Roadmap corrected: "rewrite the spec" now comes BEFORE "request swatches".
+  (Only applies if you have not already ticked those two days.)
+
+*** THE ONE RULE: YOUR DATA LIVES AT THE URL, NOT IN THE APP. ***
+Browser storage is tied to the exact web address. If the address changes,
+the app opens EMPTY - your records are not gone, but they are attached to
+the old address. So:
+
+  - Updating at the SAME address  -> data stays, nothing to do.
+  - Moving to a DIFFERENT address -> export a full backup on the old one,
+                                     then restore it on the new one.
+
+Never use app.netlify.com/drop a second time for an update. That creates a
+brand new address every time.
+
+HOW TO UPDATE (same address, data safe)
+1. app.netlify.com -> open YOUR EXISTING project -> Deploys tab.
+2. Tap the "drag and drop" panel. On a phone it opens the normal file
+   picker - you do not need to actually drag anything. Choose this .zip.
+3. Wait for "Published".
+4. In the app: Settings -> Check for update.
+5. Close the app completely and reopen it from the home screen.
+   If you skip step 5 the phone keeps serving the old cached copy.
+
+UPDATING WITHOUT NETLIFY
+Any static host works. The app is plain files - no build, no server.
+
+  Cloudflare Pages   Workers & Pages -> Create -> Pages -> Direct upload.
+                     Upload this zip. To update: same project ->
+                     Create deployment -> upload the new zip. Free,
+                     unlimited bandwidth, stable address, no git needed.
+
+  GitHub Pages       SEE GITHUB.TXT. Address never changes, free forever, but
+                     first upload of 28 files through a phone browser is
+                     tedious. Best if you later want to edit one file at a
+                     time from the phone.
+
+  No host at all     Run it off the phone itself with Termux. Full
+                     step-by-step instructions are in TERMUX.txt, and the
+                     server is a one-liner:  bash ~/nokt/nokt.sh
+                     Chrome treats localhost as secure, so offline mode,
+                     installing and storage all work (verified). After the
+                     first load Termux does not need to be running - the
+                     service worker serves the app from cache. Fully
+                     independent of any company. This is a different
+                     address, so export/import once. SEE TERMUX.TXT.
+
+Remember: moving hosts = new address = export a full backup first, restore
+it after. Settings -> Full backup (with photos), then Settings -> Restore.
+
+------------------------------------------------------------------
+FIRST-TIME DEPLOY (Android, free, no account needed)
+
+1. Open  app.netlify.com/drop  in Chrome on your phone.
+2. Tap the drop area and choose this .zip file.
+   (Do NOT unzip it first. Netlify unpacks it for you.)
+3. Wait ~20 seconds. You get a URL like
+       https://something-random-1234.netlify.app
+4. Open that URL. Wait 2 seconds so the app caches itself.
+5. Chrome menu (three dots) -> "Add to Home screen" / "Install app".
+6. Open it from the home screen. Turn on aeroplane mode and reopen it
+   to prove it works offline. It will.
+
+Make a free Netlify account afterwards if you want to keep the URL
+permanently and give it a nicer name.
+
+FIRST THINGS TO DO INSIDE THE APP
+- Settings -> Load demo data   : see every screen populated.
+- Settings -> Clear all data   : back to the real 30-day roadmap.
+- Settings -> Full backup      : do this weekly. It is the only copy.
+
+Full instructions are in README.md inside this zip.

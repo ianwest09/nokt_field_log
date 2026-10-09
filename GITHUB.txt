@@ -1,0 +1,148 @@
+NOKT FIELD LOG — PUTTING IT ON GITHUB
+=====================================
+
+I cannot create the repository for you: I have no GitHub account or
+credentials, and you should not hand a token to anyone, including me.
+Everything else is prepared. Your part is roughly five minutes.
+
+
+-------------------------------------------------------------------
+DECIDE THIS FIRST: PUBLIC OR PRIVATE
+-------------------------------------------------------------------
+
+On a free GitHub account, GitHub Pages only works from a PUBLIC
+repository. Private-repo Pages needs GitHub Pro, and even then the
+published site is still public; genuinely private sites require
+Enterprise Cloud. (Checked against GitHub's own documentation.)
+
+So you have two sensible options.
+
+  A. PRIVATE repo, no Pages.  Free.
+     GitHub becomes an off-phone backup and version history for the
+     code. You keep hosting the app on Netlify exactly as now.
+     Nothing becomes public. Nothing about your setup changes.
+
+  B. PUBLIC repo, with Pages.  Free.
+     You also get a permanent address that never changes:
+       https://YOURNAME.github.io/nokt_field_log/
+
+     But the repository contents become readable by anyone. That
+     includes js/config.js, which holds your 8-parameter fabric
+     accept/reject thresholds, your cost-model defaults (fabric
+     R185/m, 1.35 m per unit, 82% marker efficiency) and your 30-day
+     roadmap. That is real work and it would be public.
+
+WHAT IS NOT AT RISK EITHER WAY: your actual records. Factory replies,
+quotes, swatch measurements, photos and body measurements live in the
+browser's storage on your phone. They are never in the repository.
+Pushing code does not publish your data.
+
+My recommendation is A. You already have hosting that works.
+
+
+-------------------------------------------------------------------
+STEP 1 — MAKE THE EMPTY REPOSITORY  (phone browser)
+-------------------------------------------------------------------
+
+  github.com  ->  +  ->  New repository
+  Name:         nokt_field_log
+  Public or Private: your decision above
+  Do NOT tick "Add a README file", .gitignore or a licence.
+
+An empty repo is important — anything pre-added causes the first
+push to be rejected.
+
+Note on licences: leave it blank. With no licence file, default
+copyright applies and all rights stay yours. Do not add MIT or
+similar to a brand tool out of habit; it gives the work away.
+
+
+-------------------------------------------------------------------
+STEP 2 — MAKE A TOKEN  (phone browser)
+-------------------------------------------------------------------
+
+GitHub stopped accepting account passwords for pushing. You need a
+personal access token instead.
+
+  github.com -> Settings -> Developer settings
+    -> Personal access tokens -> Tokens (classic)
+    -> Generate new token (classic)
+    -> Note: "termux phone"
+    -> Expiration: 90 days
+    -> Tick the top-level "repo" box
+    -> Generate token, then COPY IT
+
+It is shown once. Paste it somewhere safe immediately — the same
+Google Drive folder as your backups is fine.
+
+
+-------------------------------------------------------------------
+STEP 3 — PUSH  (Termux)
+-------------------------------------------------------------------
+
+  bash ~/nokt/github.sh
+
+It installs git if needed, asks for your name, email and username,
+commits everything and pushes. When it asks for a password, paste
+the TOKEN, not your GitHub password. Nothing appears on screen while
+you paste a password — that is normal, just press enter.
+
+
+-------------------------------------------------------------------
+STEP 4 — ONLY IF YOU CHOSE PUBLIC: TURN ON PAGES
+-------------------------------------------------------------------
+
+  repo -> Settings -> Pages
+  Source: Deploy from a branch
+  Branch: main     Folder: / (root)     -> Save
+
+Wait one to two minutes, then open:
+
+  https://YOURNAME.github.io/nokt_field_log/
+
+THE TRAILING SLASH MATTERS.
+
+Verified already: the app works correctly from a subfolder like this.
+Service worker scope resolves to /nokt_field_log/, all 26 assets
+precache, the manifest and icons load, all ten screens render at
+360 px, and it still works with the server unreachable.
+
+This is a THIRD address, separate from Netlify and from localhost.
+It opens without your records until you import a backup.
+
+
+-------------------------------------------------------------------
+UPDATING AFTERWARDS
+-------------------------------------------------------------------
+
+  bash ~/nokt/github.sh "what I changed"
+
+Commits and pushes. If Pages is on, the site rebuilds in a minute or
+two at the same address, so your data stays put.
+
+To avoid retyping the token every push:
+
+  git config --global credential.helper store
+
+That saves it in plain text in ~/.git-credentials on the phone. It is
+a convenience, not a secure store. Fine on a phone only you use.
+
+
+-------------------------------------------------------------------
+IF THE PUSH IS REJECTED
+-------------------------------------------------------------------
+
+"Repository not found"
+    The repo does not exist yet, or the username is misspelled.
+    Check: git remote -v
+
+"Authentication failed"
+    You typed your GitHub password. It must be the token.
+
+"Updates were rejected ... fetch first"
+    You ticked "Add a README" when creating the repo. Either delete
+    the repo and make it empty, or run:
+      git pull --rebase origin main && git push -u origin main
+
+"src refspec main does not match any"
+    Nothing was committed. Run the script again.

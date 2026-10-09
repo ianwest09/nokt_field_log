@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+<title>NOKT Field Log</title>
+<meta name="theme-color" content="#0A0A0B">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Offline product-development logbook for NOKT technical legwear.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NOKT">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-180.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div id="boot" class="boot">
+  <div class="boot-mark">NOKT</div>
+  <div class="boot-sub">FIELD LOG</div>
+</div>
+
+<header id="appbar" class="appbar" hidden>
+  <button id="bar-back" class="bar-btn" type="button" aria-label="Back" hidden></button>
+  <div class="bar-titles">
+    <div id="bar-eyebrow" class="bar-eyebrow"></div>
+    <h1 id="bar-title" class="bar-title">Dashboard</h1>
+  </div>
+  <div id="bar-actions" class="bar-actions"></div>
+</header>
+
+<div id="banners" class="banners" hidden></div>
+
+<main id="app" class="app" tabindex="-1"></main>
+
+<nav id="tabbar" class="tabbar" hidden aria-label="Primary"></nav>
+
+<div id="sheet-root" class="sheet-root" hidden>
+  <div class="sheet-scrim" data-close="1"></div>
+  <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-grip"></div>
+    <header class="sheet-head">
+      <h2 id="sheet-title" class="sheet-title"></h2>
+      <button class="sheet-x" type="button" data-close="1" aria-label="Close"></button>
+    </header>
+    <div id="sheet-body" class="sheet-body"></div>
+    <footer id="sheet-foot" class="sheet-foot"></footer>
+  </section>
+</div>
+
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lb-bar">
+    <button class="lb-x" type="button" aria-label="Close"></button>
+    <div class="lb-count" id="lb-count"></div>
+    <button class="lb-del" type="button" aria-label="Delete photo"></button>
+  </div>
+  <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""></div>
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/zip.js"></script>
+<script src="js/db.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/photos.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/views/dashboard.js"></script>
+<script src="js/views/factories.js"></script>
+<script src="js/views/fabrics.js"></script>
+<script src="js/views/body.js"></script>
+<script src="js/views/fit.js"></script>
+<script src="js/views/wear.js"></script>
+<script src="js/views/cost.js"></script>
+<script src="js/views/decisions.js"></script>
+<script src="js/views/photolib.js"></script>
+<script src="js/views/reports.js"></script>
+<script src="js/views/settings.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

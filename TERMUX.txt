@@ -1,0 +1,221 @@
+NOKT FIELD LOG — RUNNING THE APP WITHOUT NETLIFY (Termux, Android)
+==================================================================
+
+This moves the app off Netlify and onto your own phone. No host, no
+account, no internet, nothing that can be taken away from you.
+
+Read STEP 0 before anything else. Skipping it loses your data.
+
+
+-------------------------------------------------------------------
+STEP 0 — BACK UP FIRST.  THIS IS NOT OPTIONAL.
+-------------------------------------------------------------------
+
+Your records are stored by WEB ADDRESS, not by app.
+
+  your-site.netlify.app   is one storage box
+  localhost:8080          is a different, empty storage box
+
+Moving to Termux means moving to a new address. The app will NOT
+show an error. It will NOT look broken. It will open looking like a
+clean new install, with the 5 default CMT factories listed and every
+note, reply, swatch and photo you have entered simply absent.
+
+(Verified: same files, 6 factories at localhost:8080, 5 at
+127.0.0.1:8080 — and the real record present again on going back.)
+
+So, on your CURRENT Netlify app, before you touch anything:
+
+  1. Open the app as normal.
+  2. Settings  ->  Full backup (with photos)
+  3. Save the .json file to Google Drive. Not just Downloads —
+     Downloads gets cleared.
+
+You now cannot lose anything. Continue.
+
+
+-------------------------------------------------------------------
+STEP 1 — INSTALL TERMUX  (once, ~5 min)
+-------------------------------------------------------------------
+
+Install Termux from F-DROID or GITHUB. Do NOT install the Google
+Play version — the official project only distributes through F-Droid
+and GitHub, and the old Play build is abandoned and will fail.
+
+  F-Droid:  https://f-droid.org/packages/com.termux/
+  GitHub :  https://github.com/termux/termux-app/releases
+            (take the universal .apk)
+
+Android will warn about installing from an unknown source. Allow it.
+
+Open Termux. You get a black screen with a prompt. Type this and
+press enter:
+
+  pkg upgrade -y && pkg install -y python unzip
+
+Takes a few minutes. If it asks anything, press enter to accept.
+
+Then:
+
+  termux-setup-storage
+
+Tap ALLOW on the permission dialog. This is what lets Termux reach
+your Downloads folder.
+
+
+-------------------------------------------------------------------
+STEP 2 — PUT THE APP ON YOUR PHONE  (once)
+-------------------------------------------------------------------
+
+Download NOKT-FIELD-LOG.zip to your phone (it goes to Downloads).
+
+In Termux:
+
+  mkdir -p ~/nokt
+  cd ~/nokt
+  unzip -o ~/storage/downloads/NOKT-FIELD-LOG.zip
+
+You should see a list of files scroll past. Check it worked:
+
+  ls
+
+You should see index.html, app.css, sw.js, js, icons.
+
+
+-------------------------------------------------------------------
+STEP 3 — START THE SERVER
+-------------------------------------------------------------------
+
+  bash ~/nokt/nokt.sh
+
+It prints the address and then sits there looking like it has
+frozen. That is correct — that is the server running.
+
+The first run also installs a shortcut, so from then on you only
+ever type:
+
+  nokt
+
+
+-------------------------------------------------------------------
+STEP 4 — OPEN THE APP
+-------------------------------------------------------------------
+
+Leave Termux running. Switch to Chrome. Type this EXACTLY:
+
+  http://localhost:8080
+
+Not 127.0.0.1. Not 8081. Not https. The browser treats every one of
+those as a different place with different data.
+
+The app loads. It will be empty of your real work — expected.
+
+
+-------------------------------------------------------------------
+STEP 5 — RESTORE YOUR DATA
+-------------------------------------------------------------------
+
+  Settings  ->  Import backup  ->  pick the .json from Drive
+
+Check your factories, swatches and photos are all back before you
+do anything else.
+
+
+-------------------------------------------------------------------
+STEP 6 — INSTALL IT TO YOUR HOME SCREEN
+-------------------------------------------------------------------
+
+Chrome menu (three dots)  ->  Add to Home screen / Install app.
+
+Chrome treats localhost as a secure address, exactly like https, so
+the service worker, offline mode, installing and storage all work
+normally. (Verified.)
+
+
+-------------------------------------------------------------------
+THE PART THAT MATTERS MOST
+-------------------------------------------------------------------
+
+AFTER THE FIRST LOAD, TERMUX DOES NOT NEED TO BE RUNNING.
+
+The service worker has already copied all 26 app files into the
+browser. Tapping the home-screen icon opens the app from that copy.
+The server being off is the same to the browser as being offline —
+and this app is built to work offline.
+
+Verified directly: server killed, page reloaded, full dashboard
+rendered, 428 elements, test record still there, zero errors.
+
+So you need Termux exactly twice:
+  - once now, to set it up
+  - once per update, for about 60 seconds
+
+Day to day you just tap the icon, like any other app.
+
+
+-------------------------------------------------------------------
+UPDATING LATER
+-------------------------------------------------------------------
+
+Because the address never changes, updating is now safe and boring.
+
+  1. Download the new NOKT-FIELD-LOG.zip to Downloads.
+  2. In Termux:   cd ~/nokt && unzip -o ~/storage/downloads/NOKT-FIELD-LOG.zip
+  3. Start it:    nokt
+  4. Open http://localhost:8080 and pull down to refresh TWICE.
+     First refresh fetches the new version, second one shows it.
+  5. Ctrl+C in Termux. Done.
+
+Your data is untouched — same address, same storage box.
+
+Still take a backup first. It costs 20 seconds.
+
+
+-------------------------------------------------------------------
+IF SOMETHING GOES WRONG
+-------------------------------------------------------------------
+
+"This site can't be reached"
+    The server is not running. Go to Termux, type: nokt
+
+"Address already in use"
+    An old server is still alive. Run: pkill -f http.server
+    Then: nokt
+
+"unzip: cannot find or open ..."
+    The zip is not in Downloads, or storage permission was denied.
+    Run termux-setup-storage again and tap Allow.
+    Check with: ls ~/storage/downloads
+
+App opens but all my work is gone
+    You are on the wrong address. Check the Chrome address bar reads
+    exactly http://localhost:8080. Your data is not deleted, it is
+    sitting at the other address. Go back to it.
+
+Termux keeps getting killed in the background
+    Android battery optimisation. Settings -> Apps -> Termux ->
+    Battery -> Unrestricted. Only matters while the server runs.
+
+I want it to survive a reboot
+    Optional. Install the Termux:Boot addon from F-Droid, then:
+      mkdir -p ~/.termux/boot
+      echo 'termux-wake-lock; bash ~/nokt/nokt.sh' > ~/.termux/boot/nokt
+    Not needed if you only start it for updates.
+
+
+-------------------------------------------------------------------
+HONEST TRADE-OFF
+-------------------------------------------------------------------
+
+What you gain:
+  - no host, no account, nothing anyone can switch off
+  - data never leaves the phone
+  - updates are a file copy, with no upload
+
+What it costs:
+  - one setup session, and this one data migration
+  - the app now lives only on this phone. Lose the phone and the
+    only copy of your work is your last backup.
+
+That last point is the real risk, and it is bigger than anything
+Netlify was doing to you. Export a backup to Drive every Friday.
