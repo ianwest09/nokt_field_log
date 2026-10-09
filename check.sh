@@ -7,8 +7,8 @@
 #   3. Is GitHub up to date with what is on this phone?
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-REFERENCE=ae86cfe1f807004c      # fingerprint of the build this script shipped with
-REFNAME="v7"
+REFERENCE=a574d83a7399cdf4      # fingerprint of the build this script shipped with
+REFNAME="v8"
 APPFILES="index.html app.css manifest.json sw.js js icons"
 
 G='\033[32m'; R='\033[31m'; Y='\033[33m'; D='\033[0m'

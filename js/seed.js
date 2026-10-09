@@ -61,6 +61,53 @@ var Seed = (function () {
       return DB.put('tasks', d2).then(function () { return DB.put('tasks', d3); });
     }));
 
+    /* Spec v2 (09 Oct 2026): verified every factory contact by web search, including the
+       unsaved WhatsApp number +27 78 161 1995, which turned out to be Troy Textiles.
+       Backfill the real phone / email / address onto the five seeded records.
+
+       Safety: only ever write into a field the founder has left EMPTY, and only replace
+       a note that is still byte-identical to the v1 seed text. Anything he has typed
+       himself is untouchable. */
+    jobs.push(DB.all('factories').then(function (fs) {
+      var V = {
+        'fac_seed1': { phone: '+27 83 608 1519', email: 'hello@amaricmt.co.za',
+          address: '232 Albert Rd, Woodstock, Cape Town',
+          oldNote: 'Boutique. States MOQ 75 units per style. No pattern-making or fabric sourcing in house \u2014 client supplies patterns, fabric and trims. Describes itself as "quality, not affordability".' },
+        'fac_seed2': { phone: '+27 63 970 7094', email: 'hello@capetowncmt.co.za',
+          address: '45 M163, Observatory, Cape Town, 7925',
+          oldNote: 'Lists activewear from R210. 4\u20136 week lead time. Sample-first, small MOQ claimed.' },
+        'fac_seed3': { phone: '+27 78 161 1995', email: 'norbert@troytextiles.co.za',
+          address: '2 Tedric Avenue, Stikland Industrial, Cape Town, 7530', contact: 'Norbert',
+          oldNote: 'Claims facility fully set up for knits and stretch materials. In-house printing and embroidery. Claim not yet verified.' },
+        'fac_seed4': { phone: '+27 21 224 0290', email: '', address: 'Cape Town',
+          oldNote: 'End-to-end CMT, pattern-making off-site. Specialises in knit garments \u2014 mostly cotton jersey. Stretch capability unknown.' },
+        'fac_seed5': { phone: '', email: '', address: 'Woodstock, Cape Town',
+          oldNote: 'Lists loungewear & underwear and seamless among categories. Worth probing on gusset and pouch construction.' }
+      };
+      /* the two we can prove were messaged on Sat 3 Oct 2026 */
+      var CONTACTED = { 'fac_seed2': '2026-10-03', 'fac_seed3': '2026-10-03' };
+      var byName = {};
+      CFG.SEED_FACTORIES.forEach(function (f, i) { byName['fac_seed' + (i + 1)] = f; });
+
+      var writes = [];
+      fs.forEach(function (f) {
+        var v = V[f.id], fresh = byName[f.id];
+        if (!v || !fresh) return;
+        var dirty = false;
+        ['phone', 'email', 'address', 'contact'].forEach(function (k) {
+          if (!f[k] && v[k]) { f[k] = v[k]; dirty = true; }          // empty only
+          else if (!f[k] && fresh[k]) { f[k] = fresh[k]; dirty = true; }
+        });
+        if (f.notes === v.oldNote) { f.notes = fresh.notes; dirty = true; }  // untouched only
+        if (CONTACTED[f.id] && f.status === 'Not contacted' && !f.dateContacted) {
+          f.status = 'Contacted'; f.dateContacted = CONTACTED[f.id]; dirty = true;
+        }
+        if (dirty) { f.updatedAt = UI.nowISO(); writes.push(f); }
+      });
+      if (!writes.length) return;
+      return DB.bulkPut('factories', writes);
+    }));
+
     return Promise.all(jobs);
   }
 

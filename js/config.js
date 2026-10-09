@@ -137,7 +137,7 @@ var CFG = (function () {
 
   /* ---- Cost model ---- */
   var COST_DEFAULTS = {
-    fabricPricePerM: 185, metresPerUnit: 1.35, markerWidth: 150, garmentLength: 105, efficiency: 82,
+    fabricPricePerM: 170, metresPerUnit: 1.35, markerWidth: 150, garmentLength: 105, efficiency: 82,
     trims: 18, cmt: 160, labels: 22, freight: 15, wastage: 8,
     fxUsd: 17.8, fxEur: 19.4, retail: 1950, moq: 75, sizes: 3, moqBasis: 'Per size'
   };
@@ -249,16 +249,20 @@ var CFG = (function () {
   ];
 
   var SEED_FACTORIES = [
-    { name: 'Amari CMT', address: '232 Albert Rd, Woodstock, Cape Town', contact: 'Nadia Jacobs', phone: '', email: '',
-      notes: 'Boutique. States MOQ 75 units per style. No pattern-making or fabric sourcing in house — client supplies patterns, fabric and trims. Describes itself as "quality, not affordability".' },
-    { name: 'Cape Town CMT', address: '45 M163, Observatory, Cape Town', contact: '', phone: '+27 63 970 7094', email: 'hello@capetowncmt.co.za',
-      notes: 'Lists activewear from R210. 4–6 week lead time. Sample-first, small MOQ claimed.' },
-    { name: 'Troy Textiles CMT', address: 'Cape Town', contact: '', phone: '', email: '',
-      notes: 'Claims facility fully set up for knits and stretch materials. In-house printing and embroidery. Claim not yet verified.' },
-    { name: 'The Cotton Crew CMT', address: 'Cape Town', contact: 'Roxanne / Marcelle', phone: '', email: '',
-      notes: 'End-to-end CMT, pattern-making off-site. Specialises in knit garments — mostly cotton jersey. Stretch capability unknown.' },
+    { name: 'Amari CMT', address: '232 Albert Rd, Woodstock, Cape Town', contact: 'Nadia Jacobs',
+      phone: '+27 83 608 1519', email: 'hello@amaricmt.co.za',
+      notes: 'VERIFIED 09 Oct 2026 (amaricmt.co.za). Founded 2021. Boutique. States MOQ 75 units per style. No pattern-making or fabric sourcing in house - client supplies patterns, fabric and trims. Their own words: "We are a Boutique CMT focused on quality, not affordability." Good brand fit, expect a premium price. Contact name not verified on site.' },
+    { name: 'Cape Town CMT', address: '45 M163, Observatory, Cape Town, 7925', contact: '',
+      phone: '+27 63 970 7094', email: 'hello@capetowncmt.co.za',
+      notes: 'VERIFIED 09 Oct 2026 (capetowncmt.co.za). WhatsApp +27 63 970 7094, office +27 70 429 0066. Lists activewear from R210. 4-6 week lead time. Sample-first, small MOQ claimed. WARNING: this chat has 7-day disappearing messages switched on - tap Keep on every message or the thread self-deletes.' },
+    { name: 'Troy Textiles CMT', address: '2 Tedric Avenue, Stikland Industrial, Cape Town, 7530', contact: 'Norbert',
+      phone: '+27 78 161 1995', email: 'norbert@troytextiles.co.za',
+      notes: 'VERIFIED 09 Oct 2026 (troytextiles.com). Also 021 949 1683, troy@ / sales@troytextiles.co.za. Mon-Sat 08:00-17:00. RED FLAG: site claims "fully set up for knits... stretch materials", but the actual product catalogue is towels, ponchos, kitchen cloths and braai broekies. Copy is SEO-agency written. Treat the stretch claim as UNSUPPORTED until they show a high-elastane garment they have sewn.' },
+    { name: 'The Cotton Crew CMT', address: 'Cape Town', contact: 'Marcelle (Owner/Director)',
+      phone: '+27 21 224 0290', email: '',
+      notes: 'VERIFIED 09 Oct 2026 (thecottoncrewcmt.co.za). Female-owned. Staff with 40+ years combined. End-to-end CMT, pattern-making OFF-SITE. Self-describes as specialising in knits - but names T-shirts, golfers and sweatshirts, i.e. cotton jersey. High-elastane capability unknown and should not be assumed.' },
     { name: 'Edit Atelier', address: 'Woodstock, Cape Town', contact: '', phone: '', email: '',
-      notes: 'Lists loungewear & underwear and seamless among categories. Worth probing on gusset and pouch construction.' }
+      notes: 'NOT VERIFIED 09 Oct 2026 - no website, phone or email found by search. Only a 2021 third-party directory listing, which credits loungewear, underwear and seamless among its categories. Find a working contact before counting this as a live option.' }
   ];
 
 
@@ -288,23 +292,61 @@ var CFG = (function () {
   ];
 
   var SUPPLIER_CONTACTS = [
-    { name: 'Chothia Bros', note: 'Strongest local candidate. Formtex Lycra - high-Lycra, explicitly for tights.',
+    { name: 'AC Activewear (Active Fabrics)  -  REPLIED', status: 'live',
+      note: 'PRIMARY SOURCE. Caroline Hansen. Replied 06 Oct 2026 with the full April 2026 price list and 5 colour charts. MINIMUM ORDER 1 METRE. Usable width 150 cm. 24 hours notice on orders. Prices exclude VAT. See the AC Activewear price list below.',
+      web: 'https://activefabrics.co.za', tel: '+27781840200', email: 'caroline@acactivewear.co.za' },
+    { name: 'Ahmeds Textiles  -  AUTO-REPLY ONLY', status: 'chase',
+      note: 'WhatsApp bot only (03 Oct): "currently away", then "our team is working on it - you may also email sales@ahmeds.co.za". Move the enquiry to email so it lands with a human.',
+      web: 'https://ahmeds.co.za', tel: '', email: 'sales@ahmeds.co.za' },
+    { name: 'SK Textiles  -  NO REPLY', status: 'chase',
+      note: 'VERIFIED 09 Oct 2026. 25 Glosderry Rd, Claremont. Importer/wholesaler 20+ yrs, supplied Foschini, Woolworths, Truworths, YDE. Walk-in, any meterage. CAUTION: published range is viscose/rayon spandex and wovens at 4-5% spandex (e.g. 210 gsm 95% rayon / 5% spandex). No nylon/elastane high-stretch warp knit seen. Likely to fail P1 the same way Rubitex did - ask before investing time.',
+      web: 'https://sktextiles.co.za', tel: '+27216832710', email: 'info@sktextiles.co.za' },
+    { name: 'Chothia Bros  -  NOT CONTACTED', status: 'todo',
+      note: 'Formtex Lycra - high-Lycra, explicitly marketed for tights. Still the best-sounding unexplored lead. No enquiry sent yet.',
       web: 'https://chothiabros.co.za/fabrics/fabrics-for-sportswear', tel: '', email: '' },
-    { name: 'Active Fabrics', note: '36 3rd Ave, Elsiesrivier. Walk-in. Nearest plain black nylon/spandex.',
-      web: 'https://activefabrics.co.za', tel: '+27215926230', email: 'info@acactivewear.co.za' },
-    { name: 'SK Textiles', note: 'Activewear and swimwear knits, roughly R48-110/m.',
-      web: 'https://sktextiles.co.za', tel: '', email: '' },
-    { name: 'Rubitex', note: 'Cape Town importer and wholesaler since 1991. Woven and knit.',
-      web: 'https://rubitex.co.za', tel: '', email: '' },
-    { name: 'Ahmeds', note: 'Retail benchmark only - Nylon Lycra R140/m. Use to sanity-check wholesale quotes.',
-      web: 'https://ahmeds.co.za', tel: '', email: '' }
+    { name: 'Rubitex  -  ELIMINATED', status: 'dead',
+      note: 'CLOSED 05 Oct 2026. Kaashefa Isaacs: "We don\'t have any fabric in stock with 15-30% elastane." Do not re-contact for Product 1.',
+      web: 'https://rubitex.co.za', tel: '+27214476002', email: 'info@rubitex.co.za' }
   ];
+
+  /* AC Activewear price list, 01 April 2026. All prices EXCLUDE VAT.
+     Minimum cut 1 m. Usable width 150 cm. 24 hours notice on orders.
+     Verified against the supplier PDF on 09 Oct 2026. */
+  var AC_PRICELIST = [
+    { f: 'MAMI - MATT', gsm: 215, comp: '77% nylon / 23% spandex', col: 'BLACK ONLY', m: 175, roll: 170, pick: 1 },
+    { f: 'POLY D F', gsm: 230, comp: '82% poly / 18-20% spandex, double face', col: 'Black, Red, Navy', m: 135, roll: 130, pick: 2 },
+    { f: 'KIRA - MATT', gsm: 195, comp: '80% nylon / 20% spandex', col: 'Black', m: 120, roll: 115, pick: 3 },
+    { f: 'KIRA - MATT', gsm: 195, comp: '80% nylon / 20% spandex', col: 'Colours', m: 150, roll: 145, pick: 0 },
+    { f: 'YORI - RECYCLED', gsm: 190, comp: '82% recycled poly / 18% spandex', col: 'All colours + black', m: 95, roll: 90, pick: 0 },
+    { f: 'H-TEX MATT', gsm: 195, comp: '80% nylon / 20% spandex', col: 'Anthracite, Atlantic Blue, White, Cornflower, Sage, Cognac', m: 105, roll: 100, pick: 0 },
+    { f: 'H-TEX POLY DF', gsm: 230, comp: '20% spandex', col: 'Colours', m: 105, roll: 100, pick: 0 },
+    { f: 'RIYO REC - MATT', gsm: 190, comp: '18% spandex', col: 'Colours', m: 145, roll: 140, pick: 0 },
+    { f: 'POWER MESH', gsm: 180, comp: '89% nylon / 11-14% spandex', col: 'Black, White', m: 137, roll: 132, pick: 0 },
+    { f: 'JUSTIN - MATT', gsm: 150, comp: '77% nylon / 23% spandex', col: 'Black, White, Colours', m: 172, roll: 167, pick: 0 },
+    { f: 'SHIRA - SHINY', gsm: 195, comp: '20% spandex', col: 'Colours', m: 150, roll: 145, pick: 0 },
+    { f: 'GLITZ', gsm: 200, comp: '85% nylon / 15% spandex', col: 'Glitter foils', m: 140, roll: 135, pick: 0 },
+    { f: 'LINING', gsm: 115, comp: '95% poly / 5% spandex', col: 'Black, Nude, White', m: 72, roll: 64, pick: 0 },
+    { f: 'POLY PFP (sublimation)', gsm: 250, comp: '18% spandex', col: 'White PFP', m: 115, roll: 110, pick: 0 },
+    { f: 'POLY DF PFP (sublimation)', gsm: 230, comp: '20% spandex', col: 'White PFP', m: 115, roll: 110, pick: 0 }
+  ];
+
+  /* Unresolved contradictions between the Aug-2021 colour charts and the Apr-2026
+     price list. Ask Caroline before ordering a roll. */
+  var AC_QUERIES = [
+    'POLY 290 gm BLACK (85% poly / 15% spandex) is on the 2021 chart but NOT on the 2026 price list. Still available? Price? This is the only fabric seen that clears the 240 gsm opacity floor.',
+    'POLY FLEECE 260 gm BLACK (89% poly / 11% spandex) - same question.',
+    'POWER MESH - chart says 190 gsm / 11% spandex, price list says 180 gsm / 14%. Which is current?',
+    'The 250 gm PFP - the chart labels it NYLON, the price list files it under POLY. Which is it?',
+    'Which fabrics use Creora elastane, and is any of it Creora Highclo (chlorine-resistant)?',
+    'Is MAMI black-only a stock position, or is it held for one trade customer?'
+  ];
+
 
   var SUPPLIER_ENQUIRY =
     'Good day - I am developing a premium men\'s legging and sourcing a black technical stretch knit. ' +
     'Could you tell me what you have against this spec, and quote for swatches?\n\n' +
     '- Composition: nylon/elastane, 15-30% elastane (branded elastane preferred)\n' +
-    '- Weight: 240-300 gsm - this is firm, below 240 will not work\n' +
+    '- Weight: 240-300 gsm preferred. I will consider 220+ if the knit is dense and stays opaque under stretch\n' +
     '- Construction: warp knit or double-knit interlock (not single jersey, not brushed)\n' +
     '- Usable width, and whether the edge curls\n' +
     '- Four-way stretch - approximate % both crosswise and lengthwise if known\n' +
@@ -312,7 +354,7 @@ var CFG = (function () {
     'Please send: price per metre, minimum cut, roll width, current black stock, and whether swatches ' +
     'are available (I will pay for swatches and courier). Swatches need to be at least 20 x 20 cm so I ' +
     'can test extension and opacity properly.\n\n' +
-    'I am in Cape Town and can collect. Thank you.';
+    'I am in the Eastern Cape, so please quote courier. Thank you.';
 
   var FABRIC_SUPPLIERS = ['Chothia Bros', 'Active Fabrics (Elsiesrivier)', 'SK Textiles', 'Rubitex', 'Other'];
 
@@ -321,6 +363,7 @@ var CFG = (function () {
     QUESTIONNAIRE_INTRO: QUESTIONNAIRE_INTRO, QUESTIONNAIRE_OUTRO: QUESTIONNAIRE_OUTRO,
     FABRIC_TESTS: FABRIC_TESTS, FABRIC_SUPPLIERS: FABRIC_SUPPLIERS,
     FABRIC_SPEC: FABRIC_SPEC, SUPPLIER_CONTACTS: SUPPLIER_CONTACTS, SUPPLIER_ENQUIRY: SUPPLIER_ENQUIRY,
+    AC_PRICELIST: AC_PRICELIST, AC_QUERIES: AC_QUERIES,
     BODY_GIRTHS: BODY_GIRTHS, BODY_LENGTHS: BODY_LENGTHS,
     BODY_ALL: BODY_GIRTHS.concat(BODY_LENGTHS),
     EASE_ZONES: EASE_ZONES, EASE_PRESETS: EASE_PRESETS,

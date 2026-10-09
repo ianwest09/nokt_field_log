@@ -100,6 +100,43 @@ Views.fabrics = function (app) {
       body.appendChild(c);
     });
 
+    /* ---- AC Activewear real price list (Apr 2026). Offline reference for a
+       supplier conversation. Prices exclude VAT; min cut 1 m; usable width 150 cm. ---- */
+    body.appendChild(UI.eyebrow('AC Activewear price list  -  Apr 2026, excl VAT'));
+    var pl = UI.card([]);
+    pl.appendChild(UI.el('div', { class: 'f-hint', style: 'margin-bottom:10px',
+      text: 'Minimum cut 1 metre. Usable width 150 cm. 24 hours notice. Caroline Hansen, 078 184 0200. Ranked picks are the three black candidates for NOKT-01.' }));
+    CFG.AC_PRICELIST.slice().sort(function (a, b) {
+      var pa = a.pick || 99, pb = b.pick || 99;
+      if (pa !== pb) return pa - pb;
+      return b.gsm - a.gsm;
+    }).forEach(function (x) {
+      var row = UI.el('div', { class: 'card', style: 'margin-bottom:8px;padding:10px' });
+      var head = UI.el('div', { style: 'display:flex;justify-content:space-between;gap:8px;align-items:baseline' });
+      head.appendChild(UI.el('div', { class: 'h2', style: 'margin:0',
+        text: (x.pick ? x.pick + '. ' : '') + x.f + '  ' + x.gsm + ' gsm' }));
+      head.appendChild(UI.el('div', { class: 'h2', style: 'margin:0;white-space:nowrap', text: 'R' + x.roll + '/m' }));
+      row.appendChild(head);
+      row.appendChild(UI.el('div', { class: 'f-hint', style: 'margin-top:4px', text: x.comp }));
+      row.appendChild(UI.el('div', { class: 'tiny', style: 'margin-top:2px',
+        text: x.col + '   -   R' + x.m + '/m cut, R' + x.roll + '/m by roll' }));
+      pl.appendChild(row);
+    });
+    body.appendChild(pl);
+
+    body.appendChild(UI.eyebrow('Unanswered  -  ask before ordering a roll'));
+    var qs = UI.card([]);
+    CFG.AC_QUERIES.forEach(function (t, i) {
+      qs.appendChild(UI.el('div', { class: 'f-hint', style: 'margin-bottom:8px', text: (i + 1) + '.  ' + t }));
+    });
+    body.appendChild(qs);
+    body.appendChild(UI.el('button', {
+      class: 'btn', style: 'margin-top:10px', type: 'button', text: 'Copy questions',
+      onclick: function () {
+        UI.copy(CFG.AC_QUERIES.map(function (t, i) { return (i + 1) + '. ' + t; }).join('\n\n'));
+      }
+    }));
+
     UI.sheet({ title: 'Fabric spec v1', body: body });
   }
   var q = '', sort = 'code', list = [];

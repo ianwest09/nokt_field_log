@@ -1,5 +1,5 @@
 /* NOKT FIELD LOG — service worker. Cache-first, precache everything. */
-var VERSION = 'nokt-field-log-v7';
+var VERSION = 'nokt-field-log-v8';
 var ASSETS = [
   './',
   './index.html',
