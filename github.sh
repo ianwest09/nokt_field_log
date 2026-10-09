@@ -91,19 +91,27 @@ if git push -u origin main; then
 
    Code:  https://github.com/$URL
 
-   To serve it as a website, once only:
+   Your app is now backed up off the phone, with history.
+   Nothing else is needed. Your hosting is unchanged.
+
+   ---- OPTIONAL, AND ONLY IF THIS REPO IS PUBLIC ----
+
+   A free GitHub account can only serve Pages from a
+   PUBLIC repository. If this repo is private, skip this:
+   Settings -> Pages will not offer a branch to deploy.
+
      repo -> Settings -> Pages
      Source: Deploy from a branch
      Branch: main    Folder: / (root)    -> Save
-     Wait 1-2 minutes.
-
-   It will then live at:
+     Wait 1-2 minutes, then:
 
      https://$USER_PART.github.io/$REPO/
 
-   MIND THE TRAILING SLASH, and note this is a NEW
-   address — a different storage box. The app will open
-   without your records until you import your backup.
+   Mind the trailing slash. That is a NEW address, so it
+   is a different storage box: the app opens without your
+   records until you import a backup. Making the repo
+   public also makes js/config.js readable by anyone -
+   your fabric thresholds, cost defaults and roadmap.
   ========================================================
 
 MSGEND

@@ -219,3 +219,33 @@ What it costs:
 
 That last point is the real risk, and it is bigger than anything
 Netlify was doing to you. Export a backup to Drive every Friday.
+
+
+-------------------------------------------------------------------
+CHECKING YOU HAVE THE RIGHT VERSION
+-------------------------------------------------------------------
+
+  bash ~/nokt/check.sh
+
+It reports three things and tells you the fix for anything wrong:
+
+  1. the app installed on this phone - intact? which version?
+  2. the zip in Downloads - is an update sitting unopened?
+  3. GitHub - anything uncommitted or unpushed?
+
+It changes nothing. It is safe to run any time, and it works
+offline (the GitHub part is skipped and says so).
+
+To make it one word:
+
+  echo "alias noktcheck='bash ~/nokt/check.sh'" >> ~/.bashrc
+
+To make it an actual button on your home screen, install the
+Termux:Widget addon from F-Droid, then:
+
+  mkdir -p ~/.shortcuts
+  printf 'bash ~/nokt/check.sh\nread -p "enter to close"\n' > ~/.shortcuts/NOKT-Check
+  chmod +x ~/.shortcuts/NOKT-Check
+
+Long-press the home screen, add a Termux:Widget shortcut, pick
+NOKT-Check. One tap runs it.
